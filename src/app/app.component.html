@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-12">
+      <h1>{{ title }}</h1>
+    </div>
+  </div>
+  <app-addform-worker (addWorker)="onAddWorker($event)"></app-addform-worker>
+  <app-table-workers
+    [title]="'Программисты'"
+    [workers]="getByType(myWorkerType.programmer)"
+    (deleteWorker)="onDeleteById($event)"
+    (editWorker)="onEdit($event)"
+  ></app-table-workers>
+  <app-table-workers
+    [title]="'Дизайнеры'"
+    [workers]="getByType(myWorkerType.designer)"
+    (deleteWorker)="onDeleteById($event)"
+    (editWorker)="onEdit($event)"
+
+  ></app-table-workers>
+  <app-table-workers
+    [title]="'Рекламщики'"
+    [workers]="getByType(myWorkerType.copywriter)"
+    (deleteWorker)="onDeleteById($event)"
+    (editWorker)="onEdit($event)"
+
+  ></app-table-workers>
+  <app-table-workers
+    [title]="'Менеджеры'"
+    [workers]="getByType(myWorkerType.manager)"
+    (deleteWorker)="onDeleteById($event)"
+    (editWorker)="onEdit($event)"
+  ></app-table-workers>
+
+  <hr />
+  <div class="row">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <button
+          class="btn btn-outline-primary"
+          id="dropdownForm1"
+          ngbDropdownToggle
+        >
+          Toggle dropdown
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+          <form class="px-4 py-3">
+            <div class="form-group">
+              <label for="exampleDropdownFormEmail1">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="exampleDropdownFormEmail1"
+                placeholder="email@example.com"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleDropdownFormPassword1">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="exampleDropdownFormPassword1"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="dropdownCheck"
+              />
+              <label class="form-check-label" for="dropdownCheck">
+                Remember me
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </form>
+          <div class="dropdown-divider"></div>
+          <button ngbDropdownItem>New around here? Sign up</button>
+          <button ngbDropdownItem>Forgot password?</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row mb-3">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

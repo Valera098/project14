@@ -1,0 +1,80 @@
+<ng-container *ngIf="workers.length > 0">
+  <div class="row">
+    <div class="col-12">
+      <h5>{{ title }}</h5>
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col" [style.width]="'100px'">#</th>
+          <th scope="col" [style.width]="'30%'">Имя</th>
+          <th scope="col">Фамилия</th>
+          <th scope="col" [style.width]="'200px'"></th>
+          <th scope="col" [style.width]="'150px'">Телефон</th>
+          <th scope="col" [style.width]="'150px'"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let worker of workers">
+          <tr>
+            <th scope="row">{{ worker.id }}</th>
+            <td>{{ worker.name }}</td>
+            <td>{{ worker.surname }}</td>
+            <td></td>
+            <td>{{ worker.phone }}</td>
+            <td>
+              <button
+                class="btn btn-outline-danger btn-sm"
+                (click)="onDeleteWorker(worker.id)"
+              >
+                Удалить
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input name="name" [name]="worker.id"
+                     type="text"
+                     class="form-control"
+                     placeholder="Имя"
+              />
+            </td>
+            <td>
+              <input name="surname" [name]="worker.id"
+                     type="text"
+                     class="form-control"
+                     placeholder="Фамилия"
+              />
+            </td>
+            <td>
+              <select class="custom-select" name="type" [name]="worker.id">
+                <option [value]="myWorkerType.programmer">Программист</option>
+                <option [value]="myWorkerType.designer">Дизайнер</option>
+                <option [value]="myWorkerType.copywriter">Рекламщик</option>
+                <option [value]="myWorkerType.manager">Менеджер</option>
+              </select>
+            </td>
+            <td>
+              <input name="phone" [name]="worker.id"
+                     type="text"
+                     class="form-control"
+                     placeholder="Телефон"
+                     [textMask]="{mask: mask}"
+              />
+            </td>
+            <td>
+              <button
+                class="btn btn-outline-warning btn-sm"
+                type="submit"
+                (click)="onEditWorker(worker.id)"
+              >
+                Редактировать
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>
