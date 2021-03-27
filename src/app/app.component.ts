@@ -4,6 +4,7 @@ import {
   MyWorkersDatabase,
   MyWorkerType,
 } from './shared/worker.model';
+import { WorkersLoaderService } from './shared/workers-loader';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +15,32 @@ export class AppComponent {
   title = 'Список сотрудников';
   workers: MyWorker[] = MyWorkersDatabase;
   myWorkerType = MyWorkerType;
+  constructor(
+    private workersLoaderService: WorkersLoaderService
+  ) {}
 
+  ngOnInit() {
+    this.getWorkers();
+  }
+  async getWorkers() {
+    try {
+      this.workers = await this.workersLoaderService.getWorker();
+    } catch(e) {
+      console.error(e);
+    }
+  }
   getByType(type: number) {
     return this.workers.filter((worker) => worker.type === type);
   }
 
-  onDeleteById(id: number) {
+  async onDeleteById(id: number) {
     let index = this.workers.findIndex((worker) => worker.id === id);
     if (index !== -1) {
       this.workers.splice(index, 1);
     }
+    await this.workersLoaderService.deleteWorker(id);
   }
-  onEdit({id, name, surname, type, phone}) {
+  async onEdit({id, name, surname, type, phone}) {
     if(this.isFieldsEmpty({name, surname, type}))return alert('Невозможно создать запись с пустыми полями');//Проверка, если поля пустые
 
 
@@ -35,10 +50,16 @@ export class AppComponent {
       ...this.workers[index],
       name, surname, type, phone
     }
-
+    try {
+      await this.workersLoaderService.editWorker(id, this.workers[index]);
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.getWorkers();
+    }
   }
 
-  onAddWorker(worker) {
+  async onAddWorker(worker:MyWorker) {
     if(this.isFieldsEmpty(worker))return alert('Невозможно создать запись с пустыми полями');//Проверка, если поля пустые
 
     let id =
@@ -47,6 +68,7 @@ export class AppComponent {
         : 0;
     worker.id = id;
     this.workers.push(worker);
+    await this.workersLoaderService.postWorker(worker);
   }
 
   isFieldsEmpty(worker){
